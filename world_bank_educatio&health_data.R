@@ -12,7 +12,7 @@ health_spending4 <- cbind(YEA = 2010:2019, health_spending4)
 mean_column1 <- rowMeans(health_spending4[,2:13])
 health_spending5 <- cbind(health_spending4, "Mean" = mean_column1)
 
-
+ed_spending2 <- ed_spending1[ed_spending1$LOCATION %in% JBM_peers & ed_spending1$SUBJECT == "PRY" & ed_spending1$MEASURE == "PC_GDP",]
 ed_spending3 <- split(ed_spending2, ed_spending2$LOCATION)
 ed_spending4 <- lapply(ed_spending3, function(x) x[,6:7])
 ed_spending5 <- Reduce(function(x, y) merge(x, y, by = "TIME", all = TRUE), ed_spending4)
@@ -20,4 +20,3 @@ country_codes <- names(ed_spending3)
 colnames(ed_spending5)[-1] <- country_codes
 mean_column2 <- rowMeans(ed_spending5[,2:13], na.rm = TRUE)
 ed_spending6 <- cbind(ed_spending5, "Mean" = mean_column2)
-ed_spending6
