@@ -6,11 +6,11 @@ health_spending2 <- health_spending1[, c(2, 45:64)]
 health_spending3 <- health_spending2[health_spending2$Country.Code %in% JBM_peers, ]
 health_spending4 <- t(health_spending3[, -1])
 colnames(health_spending4) <- health_spending3$Country.Code
-health_spending4
 rownames(health_spending4) <- 1:20
 health_spending4 <- cbind(YEA = 2010:2019, health_spending4)
 mean_column1 <- rowMeans(health_spending4[,2:13])
 health_spending5 <- cbind(health_spending4, "Mean" = mean_column1)
+health_data_frame <- as.data.frame(health_spending5)
 
 ed_spending2 <- ed_spending1[ed_spending1$LOCATION %in% JBM_peers & ed_spending1$SUBJECT == "PRY" & ed_spending1$MEASURE == "PC_GDP",]
 ed_spending3 <- split(ed_spending2, ed_spending2$LOCATION)
@@ -20,3 +20,7 @@ country_codes <- names(ed_spending3)
 colnames(ed_spending5)[-1] <- country_codes
 mean_column2 <- rowMeans(ed_spending5[,2:13], na.rm = TRUE)
 ed_spending6 <- cbind(ed_spending5, "Mean" = mean_column2)
+ed_data_frame <- as.data.frame(ed_spending6)
+
+health_data_frame
+ed_data_frame
