@@ -97,13 +97,6 @@ for (i in 2:ncol(health_df2)) {
   health_df2[, i] <- health_df2[, i] / health_df2[health_df2$YEA == 2010, i]
 }
 
-<<<<<<< HEAD
-
-=======
-library(ggplot2)
-library(dplyr)
->>>>>>> 2a6a20f9acd3adc08cf4d25c2001d424f529bc62
-
 summary_df <- health_df %>%
   group_by(YEA) %>%
   summarize(max_value = max(GBR, Mean, AUT, CAN, DEU, DNK, FIN, FRA, NLD, NOR, SVN, SWE),
@@ -167,8 +160,6 @@ for (i in 2:ncol(ed_df3)) {
   ed_df3[, i] <- ed_df3[, i] / ed_df3[ed_df3$TIME == 2010, i]
 }
 
-<<<<<<< HEAD
-=======
 summary_df_ed2 <- ed_df2 %>%
   group_by(TIME) %>%
   summarize(max_value = max(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean),
@@ -212,4 +203,3 @@ ggplot(ed_df3, aes(x = TIME)) +
   labs(x = NULL, y = NULL) +
   ggtitle("Primary education (/2010%GDP)") +
   theme_bw()
->>>>>>> 2a6a20f9acd3adc08cf4d25c2001d424f529bc62
