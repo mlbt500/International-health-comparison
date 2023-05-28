@@ -3,6 +3,7 @@ gov_ed_spending_per_pupil <- read.csv(".\\data\\gov_spending_education_per_pupil
 health_spending1 <- read.csv(".\\data\\health_spending.csv") ## world Bank
 JBM_peers <- c("GBR", "AUT", "CAN", "DNK", "DEU", "FIN", "FRA", "NLD", "NOR", "SWE", "SVN", "USA")
 
+## Government expenditure per student, primary(% of GDP per capita)
 primary_code <- unique(gov_ed_spending_per_pupil[,1])[1]
 gov_ed1 <- gov_ed_spending_per_pupil[, c(1, 4, 45:64)]
 gov_ed2 <- gov_ed1[gov_ed1$Country.Code %in% JBM_peers & gov_ed1$Series.Name %in% primary_code, ]
@@ -63,6 +64,7 @@ ggplot(gov_ed5, aes(x = YEA)) +
   ggtitle("Government expenditure per student, primary (% of GDP per capita)/2010") +
   theme_bw()
 
+## Health spending(%GDP)
 
 health_spending2 <- health_spending1[, c(2, 45:64)]
 health_spending3 <- health_spending2[health_spending2$Country.Code %in% JBM_peers, ]
@@ -128,7 +130,8 @@ ggplot(health_df, aes(x = YEA)) +
     ggtitle("Health spending (/2010%GDP)") +
     theme_bw()
   
-
+## Primary education(%GDP)
+  
 ed_spending2 <- ed_spending1[ed_spending1$LOCATION %in% JBM_peers & ed_spending1$SUBJECT == "PRY" & ed_spending1$MEASURE == "PC_GDP",]
 ed_spending3 <- split(ed_spending2, ed_spending2$LOCATION)
 ed_spending4 <- lapply(ed_spending3, function(x) x[,6:7])
