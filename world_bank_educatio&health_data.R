@@ -97,7 +97,12 @@ for (i in 2:ncol(health_df2)) {
   health_df2[, i] <- health_df2[, i] / health_df2[health_df2$YEA == 2010, i]
 }
 
+<<<<<<< HEAD
 
+=======
+library(ggplot2)
+library(dplyr)
+>>>>>>> 2a6a20f9acd3adc08cf4d25c2001d424f529bc62
 
 summary_df <- health_df %>%
   group_by(YEA) %>%
@@ -162,3 +167,49 @@ for (i in 2:ncol(ed_df3)) {
   ed_df3[, i] <- ed_df3[, i] / ed_df3[ed_df3$TIME == 2010, i]
 }
 
+<<<<<<< HEAD
+=======
+summary_df_ed2 <- ed_df2 %>%
+  group_by(TIME) %>%
+  summarize(max_value = max(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean),
+            min_value = min(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean))
+
+ggplot(ed_df2, aes(x = TIME)) +
+  geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
+  geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
+  geom_line(aes(y = NLD), color = "gray50", size = 0.8) +
+  geom_line(aes(y = NOR), color = "gray50", size = 0.8) +
+  geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
+  geom_line(aes(y = USA), color = "gray50", size = 0.8) +
+  geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
+  geom_ribbon(data = summary_df_ed2, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
+  labs(x = NULL, y = NULL) +
+  ggtitle("Primary education (%GDP)") +
+  theme_bw()
+
+summary_df_ed3 <- ed_df3 %>%
+  group_by(TIME) %>%
+  summarize(max_value = max(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean),
+            min_value = min(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean))
+
+ggplot(ed_df3, aes(x = TIME)) +
+  geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
+  geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
+  geom_line(aes(y = NLD), color = "gray50", size = 0.8) +
+  geom_line(aes(y = NOR), color = "gray50", size = 0.8) +
+  geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
+  geom_line(aes(y = USA), color = "gray50", size = 0.8) +
+  geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
+  geom_ribbon(data = summary_df_ed3, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
+  labs(x = NULL, y = NULL) +
+  ggtitle("Primary education (/2010%GDP)") +
+  theme_bw()
+>>>>>>> 2a6a20f9acd3adc08cf4d25c2001d424f529bc62
