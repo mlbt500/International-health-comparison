@@ -19,6 +19,35 @@ OECD_health3 <- split(OECD_health2, OECD_health2$LOCATION)
 OECD_health4 <- lapply(OECD_health3, function(x) x[,2:3])
 OECD_health5 <- Reduce(function(x, y) merge(x, y, by = "TIME", all = TRUE), OECD_health4)
 colnames(OECD_health5) <- c("YEA", names(OECD_health4))
+means <- rowMeans(OECD_health5[,2:13])
+OECD_health5 <- cbind(OECD_health5, "Mean" = means)
+
+# Plot: Compulsory Health spending (%GDP)
+summary_df <- OECD_health5 %>%
+  group_by(YEA) %>%
+  summarize(
+    max_value = max(GBR, Mean, AUT, CAN, DEU, DNK, FIN, FRA, NLD, NOR, CHE, SWE),
+    min_value = min(GBR, Mean, AUT, CAN, DEU, DNK, FIN, FRA, NLD, NOR, CHE, SWE)  
+  )
+
+
+ggplot(OECD_health5, aes(x = YEA)) +
+  geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
+  geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
+  geom_line(aes(y = AUT), color = "gray50", size = 0.8) +
+  geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DNK), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
+  geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
+  geom_line(aes(y = NLD), color = "gray50", size = 0.8) +
+  geom_line(aes(y = NOR), color = "gray50", size = 0.8) +
+  geom_line(aes(y = CHE), color = "gray50", size = 0.8) +  # Replaced "SVN" with "CHE"
+  geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
+  geom_ribbon(data = summary_df, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
+  labs(x = NULL, y = NULL) +
+  ggtitle("Government spending on health (%GDP)") +
+  theme_bw()
 
 # Government health spending
 gov_health1 <- gov_health[-c(1:3), ]
