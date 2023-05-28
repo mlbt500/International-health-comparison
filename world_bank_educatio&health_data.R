@@ -41,7 +41,7 @@ ggplot(gov_ed4, aes(x = YEA)) +
   geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
   geom_line(aes(y = USA), color = "gray50", size = 0.8) +
   labs(x = NULL, y = NULL) +
-  ggtitle("Government expenditure on education per pupil (%GDP)") +
+  ggtitle("Government expenditure per student, primary (% of GDP per capita)") +
   theme_bw()
 
 
@@ -60,27 +60,9 @@ ggplot(gov_ed5, aes(x = YEA)) +
   geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
   geom_line(aes(y = USA), color = "gray50", size = 0.8) +
   labs(x = NULL, y = NULL) +
-  ggtitle("Government expenditure on primary education per pupil (%GDP)") +
+  ggtitle("Government expenditure per student, primary (% of GDP per capita)/2010") +
   theme_bw()
 
-
-ggplot(gov_ed5, aes(x = YEA)) +
-  geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
-  geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
-  geom_line(aes(y = AUT), color = "gray50", size = 0.8) +
-  geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
-  geom_line(aes(y = DNK), color = "gray50", size = 0.8) +
-  geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
-  geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
-  geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
-  geom_line(aes(y = NLD), color = "gray50", size = 0.8) +
-  geom_line(aes(y = NOR), color = "gray50", size = 0.8) +
-  geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
-  geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
-  geom_line(aes(y = USA), color = "gray50", size = 0.8) +
-  labs(x = NULL, y = NULL) +
-  ggtitle("Government expenditure on education per pupil (%GDP)") +
-  theme_bw()
 
 health_spending2 <- health_spending1[, c(2, 45:64)]
 health_spending3 <- health_spending2[health_spending2$Country.Code %in% JBM_peers, ]
@@ -92,10 +74,12 @@ mean_column1 <- rowMeans(health_spending4[,2:13])
 health_spending5 <- cbind(health_spending4, "Mean" = mean_column1)
 health_df <- as.data.frame(health_spending5)
 
-health_df2 <- health_df
+health_df2 <- health_df[,-14]
 for (i in 2:ncol(health_df2)) {
   health_df2[, i] <- health_df2[, i] / health_df2[health_df2$YEA == 2010, i]
 }
+mean_column2 <- rowMeans(health_df2[,2:12])
+health_df2 <- cbind(health_df2, "Mean" = mean_column2)
 
 summary_df <- health_df %>%
   group_by(YEA) %>%
@@ -154,20 +138,20 @@ colnames(ed_spending5)[-1] <- country_codes
 mean_column2 <- rowMeans(ed_spending5[,2:13], na.rm = TRUE)
 ed_spending6 <- cbind(ed_spending5, "Mean" = mean_column2)
 ed_df <- as.data.frame(ed_spending6)
-ed_df2 <- ed_df[6:15,c(1,3,4, 6:14)]
-ed_df3 <- ed_df2
-for (i in 2:ncol(ed_df3)) {
-  ed_df3[, i] <- ed_df3[, i] / ed_df3[ed_df3$TIME == 2010, i]
+ed_df <- ed_df[-1,]
+ed_df2 <- ed_df
+for (i in 2:ncol(ed_df2)) {
+  ed_df2[, i] <- ed_df2[, i] / ed_df2[ed_df2$TIME == 2010, i]
 }
+ed_df2 <- ed_df2[,-ncol(ed_df2)]
+mean_column3 <- rowMeans(ed_df2[,2:13], na.rm = TRUE)
+ed_df2 <- cbind(ed_df2, "Mean" = mean_column3)
 
-summary_df_ed2 <- ed_df2 %>%
-  group_by(TIME) %>%
-  summarize(max_value = max(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean),
-            min_value = min(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean))
 
-ggplot(ed_df2, aes(x = TIME)) +
+ggplot(ed_df, aes(x = TIME)) +
   geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
   geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DNK), color = "gray50", size = 0.8) +
   geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
   geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
   geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
@@ -177,19 +161,15 @@ ggplot(ed_df2, aes(x = TIME)) +
   geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
   geom_line(aes(y = USA), color = "gray50", size = 0.8) +
   geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
-  geom_ribbon(data = summary_df_ed2, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
   labs(x = NULL, y = NULL) +
   ggtitle("Primary education (%GDP)") +
   theme_bw()
 
-summary_df_ed3 <- ed_df3 %>%
-  group_by(TIME) %>%
-  summarize(max_value = max(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean),
-            min_value = min(CAN, DEU, FIN, FRA, GBR, NLD, NOR, SVN, SWE, USA, Mean))
 
-ggplot(ed_df3, aes(x = TIME)) +
+ggplot(ed_df2, aes(x = TIME)) +
   geom_line(aes(y = CAN), color = "gray50", size = 0.8) +
   geom_line(aes(y = DEU), color = "gray50", size = 0.8) +
+  geom_line(aes(y = DNK), color = "gray50", size = 0.8) +
   geom_line(aes(y = FIN), color = "gray50", size = 0.8) +
   geom_line(aes(y = FRA), color = "gray50", size = 0.8) +
   geom_line(aes(y = GBR), color = "darkred", size = 1.5) +
@@ -199,7 +179,6 @@ ggplot(ed_df3, aes(x = TIME)) +
   geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
   geom_line(aes(y = USA), color = "gray50", size = 0.8) +
   geom_line(aes(y = Mean), color = "black", size = 1.5, linetype = "dotted") +
-  geom_ribbon(data = summary_df_ed3, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
   labs(x = NULL, y = NULL) +
   ggtitle("Primary education (/2010%GDP)") +
   theme_bw()
