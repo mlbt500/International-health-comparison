@@ -60,7 +60,7 @@ ggplot(gov_ed5, aes(x = YEA)) +
   geom_line(aes(y = SVN), color = "gray50", size = 0.8) +
   geom_line(aes(y = USA), color = "gray50", size = 0.8) +
   labs(x = NULL, y = NULL) +
-  ggtitle("Government expenditure on education per pupil (%GDP)") +
+  ggtitle("Government expenditure on primary education per pupil (%GDP)") +
   theme_bw()
 
 
