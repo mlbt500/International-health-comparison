@@ -54,7 +54,7 @@ ggplot(OECD_health_df, aes(x = YEA)) +
   geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
   geom_ribbon(data = summary_df, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
   labs(x = NULL, y = NULL) +
-  ggtitle("Government spending on health (%GDP)") +
+  ggtitle("Government/Compulsory spending on health (%GDP)") +
   theme_bw()
 
 # total health spend plot
@@ -81,14 +81,14 @@ ggplot(OECD_health_df2, aes(x = YEA)) +
   geom_line(aes(y = SWE), color = "gray50", size = 0.8) +
   geom_ribbon(data = summary_df, aes(ymin = min_value, ymax = max_value), fill = "lightgray", alpha = 0.5) +
   labs(x = NULL, y = NULL) +
-  ggtitle("Spending on health (%GDP)") +
+  ggtitle("Total health spend (%GDP)") +
   theme_bw()
 
 # Kristian's graph
 ggplot(OECD_health_df2, aes(x = YEA)) +
   geom_line(aes(y = GBR), color = "darkred", size = 1.5) + # I'm 80 per cent sure he has got his numbers wrong!
   geom_line(aes(y = AUS), color = "black", size = 1.5) +
-  ggtitle("Spending on health GBR versus AUS(%GDP)") +
+  ggtitle("Total health UK versus Australia (%GDP)") +
   labs(x = NULL, y = NULL) + 
   theme_bw()
 
@@ -133,4 +133,3 @@ ggplot(primary_ed2, aes(x = YEA)) +
   labs(x = NULL, y = NULL) +
   ggtitle("Primary education (%GDP)") +
   theme_bw()
-
